@@ -25,7 +25,7 @@
     <div class="liens-actions">
         <a href="liste_auteurs.php">Liste des auteurs</a>
         <a href="liste_membre.php">Liste des membres</a>
-        <a href="pages/livres/create.php" id="ajouter-livre">Ajouter un livre</a>
+        <a href="pages/livres/create.php">Ajouter un livre</a>
         <a href="pages/membres/create_membre.php" id="ajouter-membre">Ajouter un membre</a>
         <a href="liste_emprunt.php">Liste des emprunts</a>
 

@@ -15,7 +15,8 @@ if ($id_emprunt) {
 //Traitement du formulaire
 if ($_POST){
     $data_emprunt = [
-        'id_livre' => $_GET['id_livre'] ?? '',
+        'id_emprunt' => $_GET['id_emprunt'] ?? '',
+        'id_livre' => $_POST['id_livre'] ?? '',
         'id_membre' => $_POST['id_membre'] ?? '',
         'date_emprunt' => $_POST['date_emprunt'] ?? '',
         'date_retour_prevue' => $_POST['date_retour_prevue'] ?? '',
@@ -24,19 +25,25 @@ if ($_POST){
     ];
 
     //Validation des données
-
+    $id_emprunt = isset($data_emprunt['id_emprunt']) && $data_emprunt['id_emprunt'] !== '' ? (int)$data_emprunt['id_emprunt'] : null;
+    $id_livre = isset($data_emprunt['id_livre']) && $data_emprunt['id_livre'] !== '' ? (int)$data_emprunt['id_livre'] : null;
+    $id_membre = isset($data_emprunt['id_membre']) && $data_emprunt['id_membre'] !== '' ? (int)$data_emprunt['id_membre'] : null;
 
     //Gestion des erreurs
-    $empruntModel->update(
-        $data_emprunt['id_emprunt'],
-        $data_emprunt['id_livre'],
-        $data_emprunt['id_membre'],
-        $data_emprunt['date_emprunt'],
-        $data_emprunt['date_retour_prevue'],
-        $data_emprunt['date_retour_effectif'],
-        $data_emprunt['statut']
-    );
-    header('Location: ../../liste_emprunt.php?message=updated'); //permet de rediriger à la page d'accueil après la création
+    if ($id_emprunt && $id_livre && $id_membre) {
+        $empruntModel->update(
+            $id_emprunt,
+            $id_livre,
+            $id_membre,
+            $data_emprunt['date_emprunt'],
+            $data_emprunt['date_retour_prevue'],
+            $data_emprunt['date_retour_effectif'],
+            $data_emprunt['statut']
+        );
+        header('Location: ../../liste_emprunt.php?message=updated');
+    } else {
+        $errors[] = "Les champs ID Emprunt, ID Livre et ID Membre sont obligatoires et doivent être des nombres.";
+    }
 
 } 
 
@@ -54,12 +61,16 @@ if ($_POST){
     <h1>Modifier un emprunt</h1>
     <form method="POST">
         <div>
+            <label for="id_emprunt">ID Emprunt *</label>
+            <input type="number" name="id_emprunt" id="id_emprunt" value="<?php echo htmlspecialchars($emprunt['id_emprunt'] ?? ''); ?>" required>
+        </div>
+        <div>
             <label for="id_livre">ID Livre *</label>
-            <input type="text" name="id_livre" id="id_livre" value="<?php echo htmlspecialchars($emprunt['id_livre'] ?? ''); ?>" required>
+            <input type="number" name="id_livre" id="id_livre" value="<?php echo htmlspecialchars($emprunt['id_livre'] ?? ''); ?>" required>
         </div>
         <div>
             <label for="id_membre">ID Membre *</label>
-            <input type="text" name="id_membre" id="id_membre" value="<?php echo htmlspecialchars($emprunt['id_membre'] ?? ''); ?>" required>
+            <input type="number" name="id_membre" id="id_membre" value="<?php echo htmlspecialchars($emprunt['id_membre'] ?? ''); ?>" required>
         </div>
         <div>
             <label for="date_emprunt">Date d'emprunt *</label>
@@ -71,7 +82,7 @@ if ($_POST){
         </div>
         <div>
             <label for="date_retour_effectif">Date de retour effectif *</label>
-            <input type="date" name="date_retour_effectif" id="date_retour_effectif" value="<?php echo htmlspecialchars($emprunt['date_retour_effectif'] ?? ''); ?>" required>
+            <input type="date" name="date_retour_effectif" id="date_retour_effectif" value="<?php echo htmlspecialchars($emprunt['date_retour_effectif'] ?? ''); ?>">
         </div>
         <div>
             <label for="statut">Statut *</label>

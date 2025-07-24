@@ -31,19 +31,19 @@
             return $stmt->fetchAll();
         }
 
-        //DELETE - Supprimer un livre
-
-        // public function delete($id_livre) {
-        //     $sql = "DELETE FROM livres WHERE id_livre = ?";
-        //     $stmt = $this->pdo->prepare($sql);
-        //     return $stmt->execute([$id_livre]);
-        // }
-
-        //UPDATE - Modifier un livre
-        public function update($id_livre, $id_membre, $date_emprunt, $date_retour_prevue, $date_retour_effectif, $statut) {
-            $sql = "UPDATE `emprunts` SET `id_emprunt`=?, `id_livre`=?, `id_membre`=?, `date_emprunt`=?, `date_retour_prevue`=?, `date_retour_effectif`=?, `statut`=? WHERE id_emprunt = ?";
+        //DELETE - Supprimer un emprunt
+        public function delete($id_emprunt) {
+            $sql = "DELETE FROM emprunts WHERE id_emprunt = ?";
             $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute([$id_emprunt, $id_livre, $id_membre, $date_emprunt, $date_retour_prevue, $date_retour_effectif, $statut]);
+            return $stmt->execute([$id_emprunt]);
+        }
+
+        //UPDATE - Modifier un emprunt
+        public function update($id_emprunt, $id_livre, $id_membre, $date_emprunt, $date_retour_prevue, $date_retour_effectif, $statut) {
+            $sql = "UPDATE `emprunts` SET `id_livre`=?, `id_membre`=?, `date_emprunt`=?, `date_retour_prevue`=?, `date_retour_effectif`=?, `statut`=? WHERE id_emprunt = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $date_retour_effectif = ($date_retour_effectif === '' || $date_retour_effectif === null) ? null : $date_retour_effectif;
+            return $stmt->execute([$id_livre, $id_membre, $date_emprunt, $date_retour_prevue, $date_retour_effectif, $statut, $id_emprunt]);
         }
         //READ - Récupérer un livre par son ID
         public function getById($id_emprunt) {

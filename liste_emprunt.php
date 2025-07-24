@@ -22,10 +22,8 @@
 
     <h1>Liste des emprunts</h1>
     <div class="liens-actions">
-        <a href="liste_auteurs.php">Liste des auteurs</a>
         <a href="liste_membre.php">Liste des membres</a>
-        <a href="pages/livres/create.php" id="ajouter-livre">Ajouter un livre</a>
-        <a href="pages/membres/create_membre.php" id="ajouter-membre">Ajouter un membre</a>
+        <a href="index.php">Liste des livres</a>
 
     </div>
     
@@ -41,7 +39,6 @@
                 <th>Date de retour effective</th>
                 <th>Suppression</th>
                 <th>Modification</th>
-                <th>Information</th>
             </tr>
         </thead>
         <tbody>
@@ -54,7 +51,6 @@
                 <td><?php echo htmlspecialchars($emprunt ['date_retour_prevue']) ?> </td>
                 <td><?php echo htmlspecialchars($emprunt ['date_retour_effectif'] ?? '');  ?> </td>
                 <td>
-                <td>
                     <form method="POST" action="pages/emprunts/delete.php" class="delete-form">
                         <input type="hidden" name="id_emprunt" value="<?php echo htmlspecialchars($emprunt ['id_emprunt']) ?>">
                         <input type="submit" value="X" class="delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet emprunt ?');">
@@ -62,9 +58,6 @@
                 </td>
                 <td>
                     <a href="pages/emprunts/update.php?id_emprunt=<?php echo htmlspecialchars($emprunt ['id_emprunt']) ?>" id="modifier-emprunt">Modifier un emprunt</a>
-                </td>
-                <td>
-                    <a href="pages/emprunts/read.php?id_emprunt=<?php echo htmlspecialchars($emprunt['id_emprunt']); ?>">Voir plus</a>
                 </td>
             </tr>
             <?php endforeach; ?>
